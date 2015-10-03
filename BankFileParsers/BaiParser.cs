@@ -25,13 +25,22 @@ namespace BankFileParsers
             foreach (var group in data.Groups)
             {
                 lines.Add(group.GroupHeader);
-                foreach (var groupC in group.Continuation)
+                foreach (var groupC in group.GroupContinuation)
                 {
                     lines.Add(groupC);
                 }
                 foreach (var account in group.Accounts)
                 {
                     lines.Add(account.AccountIdentifier);
+                    foreach (var accountC in account.AccountContinuation)
+                        lines.Add(accountC);
+
+                    foreach (var detail in account.Details)
+                    {
+                        lines.Add(detail.TransactionDetail);
+                        foreach (var detailC in detail.DetailContinuation)
+                            lines.Add(detailC);
+                    }
 
                     lines.Add(account.AccountTrailer);
                 }
@@ -72,8 +81,8 @@ namespace BankFileParsers
                 else if (line.StartsWith("03"))
                 {
                     continuation = ContinuationType.Account;
-                    //group.AccountIdentifier = line;
                     account = new BaiAccount(line);
+                    detail = new BaiDetail("--default--");
                 }
                 
                 else if (line.StartsWith("49"))
@@ -86,7 +95,12 @@ namespace BankFileParsers
 
                 else if (line.StartsWith("16"))
                 {
-                    continuation = ContinuationType.Transaction;                    
+                    if (detail.TransactionDetail != "--default--")
+                    {
+                        account.Details.Add(detail);
+                    }
+                    continuation = ContinuationType.Detail;
+                    detail = new BaiDetail(line);                    
                 }
 
                 else if (line.StartsWith("88"))
@@ -94,13 +108,13 @@ namespace BankFileParsers
                     switch (continuation)
                     {
                         case ContinuationType.Group:
-                            group.Continuation.Add(line);
+                            group.GroupContinuation.Add(line);
                             break;
                         case ContinuationType.Account:
-                            account.Continuation.Add(line);
+                            account.AccountContinuation.Add(line);
                             break;
-                        case ContinuationType.Transaction:
-                            detail.Continuation.Add(line);
+                        case ContinuationType.Detail:
+                            detail.DetailContinuation.Add(line);
                             break;
                     }
                 }
@@ -117,7 +131,7 @@ namespace BankFileParsers
     {
         Group,
         Account,
-        Transaction
+        Detail
     }
 
     public class BaiFile
@@ -135,15 +149,14 @@ namespace BankFileParsers
     public class BaiGroup
     {
         public string GroupHeader { get; internal set; }
-        //public string AccountIdentifier { get; internal set; }
-        public List<string> Continuation { get; internal set; }
+        public List<string> GroupContinuation { get; internal set; }
         public List<BaiAccount> Accounts { get; internal set; }
         public string GroupTrailer { get; internal set; }
 
         public BaiGroup(string line)
         {
             GroupHeader = line;
-            Continuation = new List<string>();
+            GroupContinuation = new List<string>();
             Accounts = new List<BaiAccount>();
         }
     }
@@ -151,14 +164,14 @@ namespace BankFileParsers
     public class BaiAccount
     {
         public string AccountIdentifier { get; internal set; }
-        public List<string> Continuation { get; internal set; }
+        public List<string> AccountContinuation { get; internal set; }
         public List<BaiDetail> Details { get; internal set; }
         public string AccountTrailer { get; internal set; }
 
         public BaiAccount(string line)
         {
             AccountIdentifier = line;
-            Continuation = new List<string>();
+            AccountContinuation = new List<string>();
             Details = new List<BaiDetail>();
         }
     }
@@ -166,11 +179,11 @@ namespace BankFileParsers
     public class BaiDetail
     {
         public string TransactionDetail { get; private set; }
-        public List<string> Continuation { get; internal set; }
+        public List<string> DetailContinuation { get; internal set; }
         public BaiDetail(string line)
         {
             TransactionDetail = line;
-            Continuation = new List<string>();
+            DetailContinuation = new List<string>();
         }
     }
 }
