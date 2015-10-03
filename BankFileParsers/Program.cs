@@ -11,10 +11,9 @@ namespace BankFileParsers
         static void Main(string[] args)
         {
             var parser = new BaiParser();
-            var bai = parser.Parse(@"C:\Temp\bank_files\BAI-File-From-Bank.txt");
-            Console.WriteLine(bai.FileHeader);
-            Console.WriteLine(bai.FileTrailer);
-            Console.ReadKey();
+            var fileName = @"C:\Temp\bank_files\BAI-sample.txt";
+            var bai = parser.Parse(fileName);
+            parser.Write(fileName + ".new", bai);
         }
     }
 }
