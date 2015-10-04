@@ -42,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaiAccount.cs" />
+    <Compile Include="BaiDetail.cs" />
+    <Compile Include="BaiFile.cs" />
+    <Compile Include="BaiGroup.cs" />
     <Compile Include="BaiParser.cs" />
+    <Compile Include="ContinuationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
