@@ -45,6 +45,7 @@
     <Compile Include="BaiAccount.cs" />
     <Compile Include="BaiDetail.cs" />
     <Compile Include="BaiFile.cs" />
+    <Compile Include="BaiFileHelpers.cs" />
     <Compile Include="BaiGroup.cs" />
     <Compile Include="BaiParser.cs" />
     <Compile Include="BaiTranslator.cs" />
