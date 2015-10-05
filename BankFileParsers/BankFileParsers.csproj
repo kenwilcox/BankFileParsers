@@ -47,6 +47,7 @@
     <Compile Include="BaiFile.cs" />
     <Compile Include="BaiGroup.cs" />
     <Compile Include="BaiParser.cs" />
+    <Compile Include="BaiTranslator.cs" />
     <Compile Include="ContinuationType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

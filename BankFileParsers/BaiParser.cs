@@ -25,21 +25,16 @@ namespace BankFileParsers
             foreach (var group in data.Groups)
             {
                 lines.Add(group.GroupHeader);
-                foreach (var groupC in group.GroupContinuation)
-                {
-                    lines.Add(groupC);
-                }
+                lines.AddRange(group.GroupContinuation);
                 foreach (var account in group.Accounts)
                 {
                     lines.Add(account.AccountIdentifier);
-                    foreach (var accountC in account.AccountContinuation)
-                        lines.Add(accountC);
+                    lines.AddRange(account.AccountContinuation);
 
                     foreach (var detail in account.Details)
                     {
                         lines.Add(detail.TransactionDetail);
-                        foreach (var detailC in detail.DetailContinuation)
-                            lines.Add(detailC);
+                        lines.AddRange(detail.DetailContinuation);
                     }
 
                     lines.Add(account.AccountTrailer);

@@ -8,7 +8,7 @@ We're not sure what we need, so I plan on doing both:
 ## TODO
  - [x] Start the project
  - [x] Parse the files
- - [x] Write parsed output to exact imput
+ - [x] Write parsed output to exact input
  - [ ] override ToString() to clean up the Write Method
  - [ ] Create a Translation class to take the parsed files into detail
  - [ ] Take the translation and write the input file
