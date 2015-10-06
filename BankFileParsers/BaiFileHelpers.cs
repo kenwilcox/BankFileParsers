@@ -9,6 +9,8 @@ namespace BankFileParsers
 {
     public static class BaiFileHelpers
     {
+        private static List<TransactionDetail> _transactionDetail;
+        
         public static DateTime DateTimeFromFields(string date, string time)
         {
             // An end of day can be 9999, if it is they really ment 2400
@@ -45,6 +47,18 @@ namespace BankFileParsers
             return code == string.Empty ? "USD" : code;
         }
 
+        private static float GetDivisor(string currencyCode)
+        {
+            return 100.0f;
+        }
+
+        public static decimal GetAmount(string amount, string currencyCode)
+        {
+            var value = int.Parse(amount);
+            var divisor = GetDivisor(currencyCode);
+            return (decimal) (value / divisor);
+        }
+
         public static AsOfDateModifier GetAsOfDateModifier(string modifier)
         {
             var ret = AsOfDateModifier.Missing;
@@ -65,5 +79,63 @@ namespace BankFileParsers
             }
             return ret;
         }
+
+        public static TransactionDetail GetTransactionDetail(string typeCode)
+        {
+            if (_transactionDetail == null) _transactionDetail = TransactionDetailBuilder.Build();
+            var item = _transactionDetail.First(i => i.TypeCode == typeCode);
+            if (item == null) throw new Exception("Invalid TypeCode: " + typeCode);
+            return item;
+        }
+
     }
+
+    public class TransactionDetail
+    {
+        public CategoryTypeCodes CategoryType { get; set; }
+        public string TypeCode { get; set; }
+        public TransactionType Transaction { get; set; }
+        public LevelType Level { get; set; }
+        public string Description { get; set; }
+    }
+
+    public enum TransactionType
+    {
+        Credit,
+        Debit,
+        NotApplicable,
+        Reference
+    }
+
+
+    public enum LevelType
+    {
+        Status,
+        Summary,
+        Detail
+    }
+
+    public enum CategoryTypeCodes
+    {
+        UniformBankAdministrationInstituteBalance,
+        SummaryAndDetailCredits,
+        Lockbox,
+        Concentration,
+        PreauthorizedAutomatedClearingHouse,
+        OtherDeposits,
+        MoneyTransfer,
+        Security,
+        ZeroBalanceAccountDisbursing,
+        Other,
+        CorrespondentBankFederalReserve,
+        Miscellaneous,
+        SummaryAndDetailDebits,
+        PayableThroughDraft,
+        AutomatedClearingHouse,
+        ChecksPaid,
+        DepositedItemsReturned,
+        LoanTransactions,
+        NonMonetaryInformation
+    }
+
 }
