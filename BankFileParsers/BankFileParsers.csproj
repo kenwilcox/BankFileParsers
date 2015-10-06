@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="AccountFundTypeFactory.cs" />
+    <Compile Include="AsOfDateModifier.cs" />
     <Compile Include="BaiAccount.cs" />
     <Compile Include="BaiDetail.cs" />
     <Compile Include="BaiFile.cs" />
@@ -49,10 +52,19 @@
     <Compile Include="BaiGroup.cs" />
     <Compile Include="BaiParser.cs" />
     <Compile Include="BaiTranslator.cs" />
+    <Compile Include="CategoryTypeCodes.cs" />
     <Compile Include="ContinuationType.cs" />
+    <Compile Include="Detail.cs" />
+    <Compile Include="FundType.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="GroupStatus.cs" />
+    <Compile Include="LevelType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionDetail.cs" />
     <Compile Include="TransactionDetailBuilder.cs" />
+    <Compile Include="TransactionType.cs" />
+    <Compile Include="TranslatedBaiFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

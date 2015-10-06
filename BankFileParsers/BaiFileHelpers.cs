@@ -49,6 +49,15 @@ namespace BankFileParsers
 
         private static float GetDivisor(string currencyCode)
         {
+            currencyCode = GetCurrencyCode(currencyCode);
+            var zeroDecimal = new List<string> {"BRL", "EUR", "JPY", "KMF", "XAF", "XOF", "XPF"};
+            var oneDecimal = new List<string> {"MRO"};
+            var threeDecimal = new List<string> {"BHD", "EGP", "IQD", "JOD", "KWD", "LYD", "MTL", "OMR", "SDP", "TND", "YDD"};
+
+            if (zeroDecimal.Contains(currencyCode)) return 1.0f;
+            if (oneDecimal.Contains(currencyCode)) return 10.0f;
+            if (threeDecimal.Contains(currencyCode)) return 1000.0f;
+            // Everything else should be two decimal places
             return 100.0f;
         }
 
@@ -83,59 +92,11 @@ namespace BankFileParsers
         public static TransactionDetail GetTransactionDetail(string typeCode)
         {
             if (_transactionDetail == null) _transactionDetail = TransactionDetailBuilder.Build();
-            var item = _transactionDetail.First(i => i.TypeCode == typeCode);
-            if (item == null) throw new Exception("Invalid TypeCode: " + typeCode);
+            // TODO: see what happened to a 102 record
+            var item = _transactionDetail.FirstOrDefault(i => i.TypeCode == typeCode);
+            //if (item == null) throw new Exception("Invalid TypeCode: " + typeCode);
             return item;
         }
 
     }
-
-    public class TransactionDetail
-    {
-        public CategoryTypeCodes CategoryType { get; set; }
-        public string TypeCode { get; set; }
-        public TransactionType Transaction { get; set; }
-        public LevelType Level { get; set; }
-        public string Description { get; set; }
-    }
-
-    public enum TransactionType
-    {
-        Credit,
-        Debit,
-        NotApplicable,
-        Reference
-    }
-
-
-    public enum LevelType
-    {
-        Status,
-        Summary,
-        Detail
-    }
-
-    public enum CategoryTypeCodes
-    {
-        UniformBankAdministrationInstituteBalance,
-        SummaryAndDetailCredits,
-        Lockbox,
-        Concentration,
-        PreauthorizedAutomatedClearingHouse,
-        OtherDeposits,
-        MoneyTransfer,
-        Security,
-        ZeroBalanceAccountDisbursing,
-        Other,
-        CorrespondentBankFederalReserve,
-        Miscellaneous,
-        SummaryAndDetailDebits,
-        PayableThroughDraft,
-        AutomatedClearingHouse,
-        ChecksPaid,
-        DepositedItemsReturned,
-        LoanTransactions,
-        NonMonetaryInformation
-    }
-
 }
