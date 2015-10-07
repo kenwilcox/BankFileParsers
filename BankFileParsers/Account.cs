@@ -21,8 +21,7 @@ namespace BankFileParsers
             FundsTypes = new List<FundType>();
             Details = new List<Detail>();
 
-            var list = new List<string>();
-            list.Add(data.AccountIdentifier);
+            var list = new List<string> {data.AccountIdentifier};
             list.AddRange(data.AccountContinuation);
 
             var factory = new AccountFundTypeFactory(list);

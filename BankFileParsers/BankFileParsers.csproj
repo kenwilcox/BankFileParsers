@@ -55,6 +55,7 @@
     <Compile Include="CategoryTypeCodes.cs" />
     <Compile Include="ContinuationType.cs" />
     <Compile Include="Detail.cs" />
+    <Compile Include="DetailFactory.cs" />
     <Compile Include="FundType.cs" />
     <Compile Include="FundTypeHelper.cs" />
     <Compile Include="Group.cs" />
