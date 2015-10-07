@@ -11,16 +11,14 @@ namespace BankFileParsers
         public string CustomerAccountNumber { get; set; }
         public string CurrencyCode { get; set; }
 
-        private string lineData = "";
-        private string[] _data;
-        private Stack _stack;
+        private readonly Stack _stack;
 
-        public AccountFundTypeFactory(List<string> data)
+        public AccountFundTypeFactory(IEnumerable<string> data)
         {
-            var line = "";
+            var lineData = "";
             foreach (var section in data)
             {
-                line = section;
+                var line = section;
                 if (!line.EndsWith("/")) throw new Exception("I got a line without a trailing /");
                 line = line.Replace("/", "");
 
@@ -41,44 +39,12 @@ namespace BankFileParsers
                 else throw new Exception("I got a bad line: " + line);
                 lineData += line;
             }
-            _data = lineData.Split(',');
-            var dump = _data.Reverse();
-            _stack = new Stack(dump.ToArray());
+            _stack = new Stack(lineData.Split(',').Reverse().ToArray());
         }
 
         public FundType GetNext()
         {
-            if (_stack.Count >= 4)
-            {
-                var typeCode = _stack.Pop().ToString();
-                var amount = _stack.Pop().ToString();
-                var itemCount = _stack.Pop().ToString();
-                var fundsType = _stack.Pop().ToString();
-
-                if (fundsType.ToUpper() == "S")
-                {
-                    var immediate = _stack.Pop().ToString();
-                    var oneDay = _stack.Pop().ToString();
-                    var moreDays = _stack.Pop().ToString();
-
-                    return new FundType(typeCode, amount, itemCount, fundsType, immediate, oneDay, moreDays);
-                }
-                if (fundsType.ToUpper() == "D")
-                {
-                    // next field is the number of distripution pairs
-                    // number of days, avalible amount
-                    throw new Exception("I don't want to deal with this one yet");
-                }
-                if (fundsType.ToUpper() == "V")
-                {
-                    var date = _stack.Pop().ToString();
-                    var time = _stack.Pop().ToString();
-                    var value = BaiFileHelpers.DateTimeFromFields(date, time);
-                    return new FundType(typeCode, amount, itemCount, fundsType, value);
-                }
-                return new FundType(typeCode, amount, itemCount, fundsType);
-            }
-            return null;
+            return FundTypeHelper.GetNext(_stack);
         }
     }
 }

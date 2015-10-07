@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankFileParsers
 {
@@ -92,9 +90,15 @@ namespace BankFileParsers
         public static TransactionDetail GetTransactionDetail(string typeCode)
         {
             if (_transactionDetail == null) _transactionDetail = TransactionDetailBuilder.Build();
-            // TODO: see what happened to a 102 record
-            var item = _transactionDetail.FirstOrDefault(i => i.TypeCode == typeCode);
-            //if (item == null) throw new Exception("Invalid TypeCode: " + typeCode);
+            // It looks like our bank uses type codes that are not in the spec - return a "dummy record"
+            var item = _transactionDetail.FirstOrDefault(i => i.TypeCode == typeCode) ?? new TransactionDetail()
+            {
+                CategoryType = CategoryTypeCodes.NonMonetaryInformation,
+                Transaction = TransactionType.NotApplicable,
+                Level = LevelType.Status,
+                TypeCode = typeCode,
+                Description = "Unknown Type Code"
+            };
             return item;
         }
 
