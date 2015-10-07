@@ -112,5 +112,15 @@ namespace BankFileParsers
             ret += Format("NumberOfRecords", data.NumberOfRecords, indent);
             return ret;
         }
+
+        public static string GetSummaryInformation(TranslatedBaiFile data)
+        {
+            return "--this is just a placeholder--";
+        }
+
+        public static string GetDetailInformation(TranslatedBaiFile data)
+        {
+            return "--this is just a placeholder--";
+        }
     }
 }
