@@ -45,25 +45,44 @@ namespace BankFileParsers
             return code == string.Empty ? "USD" : code;
         }
 
-        private static float GetDivisor(string currencyCode)
+        //private static float GetDivisor(string currencyCode)
+        //{
+        //    currencyCode = GetCurrencyCode(currencyCode);
+        //    var zeroDecimal = new List<string> {"BRL", "EUR", "JPY", "KMF", "XAF", "XOF", "XPF"};
+        //    var oneDecimal = new List<string> {"MRO"};
+        //    var threeDecimal = new List<string> {"BHD", "EGP", "IQD", "JOD", "KWD", "LYD", "MTL", "OMR", "SDP", "TND", "YDD"};
+
+        //    if (zeroDecimal.Contains(currencyCode)) return 1.0f;
+        //    if (oneDecimal.Contains(currencyCode)) return 10.0f;
+        //    if (threeDecimal.Contains(currencyCode)) return 1000.0f;
+        //    // Everything else should be two decimal places
+        //    return 100.0f;
+        //}
+
+        private static int GetDecimalPlaces(string currencyCode)
         {
             currencyCode = GetCurrencyCode(currencyCode);
-            var zeroDecimal = new List<string> {"BRL", "EUR", "JPY", "KMF", "XAF", "XOF", "XPF"};
-            var oneDecimal = new List<string> {"MRO"};
-            var threeDecimal = new List<string> {"BHD", "EGP", "IQD", "JOD", "KWD", "LYD", "MTL", "OMR", "SDP", "TND", "YDD"};
+            var zeroDecimal = new List<string> { "BRL", "EUR", "JPY", "KMF", "XAF", "XOF", "XPF" };
+            var oneDecimal = new List<string> { "MRO" };
+            var threeDecimal = new List<string> { "BHD", "EGP", "IQD", "JOD", "KWD", "LYD", "MTL", "OMR", "SDP", "TND", "YDD" };
 
-            if (zeroDecimal.Contains(currencyCode)) return 1.0f;
-            if (oneDecimal.Contains(currencyCode)) return 10.0f;
-            if (threeDecimal.Contains(currencyCode)) return 1000.0f;
+            if (zeroDecimal.Contains(currencyCode)) return 0;
+            if (oneDecimal.Contains(currencyCode)) return 1;
+            if (threeDecimal.Contains(currencyCode)) return 3;
             // Everything else should be two decimal places
-            return 100.0f;
+            return 2;
         }
 
         public static decimal GetAmount(string amount, string currencyCode)
         {
-            var value = int.Parse(amount);
-            var divisor = GetDivisor(currencyCode);
-            return (decimal) (value / divisor);
+            //var value = int.Parse(amount);
+            //var divisor = GetDivisor(currencyCode);
+            //return (decimal) (value / divisor);
+
+            // This is unfortunate - due to bankers rounding it messes up everything
+            // I have to try something different
+            amount = amount.Insert(amount.Length - GetDecimalPlaces(currencyCode), ".");
+            return decimal.Parse(amount);
         }
 
         public static AsOfDateModifier GetAsOfDateModifier(string modifier)
