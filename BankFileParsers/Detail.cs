@@ -66,7 +66,8 @@ namespace BankFileParsers
                 case "D":
                     // next field is the number of distripution pairs
                     // number of days, avalible amount
-                    throw new Exception("I don't want to deal with this one yet");
+                    // currencyCode would be used here
+                    throw new Exception("I don't want to deal with this one yet - " + currencyCode);
                 case "V":
                     var date = stack.Pop().ToString();
                     var time = stack.Pop().ToString();

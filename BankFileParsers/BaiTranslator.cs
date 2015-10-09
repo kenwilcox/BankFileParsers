@@ -117,10 +117,10 @@ namespace BankFileParsers
         }
 
         /// <summary>
-        /// Returns a CSV file of the Summary/Header information in the BAI file
+        /// Returns a List of SummaryHeader information in the BAI file
         /// </summary>
         /// <param name="data">The translated BAI object</param>
-        /// <returns>A CSV file format</returns>
+        /// <returns>A List of SummaryHeader</returns>
         public static List<SummaryHeader> GetSummaryInformation(TranslatedBaiFile data)
         {
             var ret = new List<SummaryHeader>();
@@ -152,6 +152,12 @@ namespace BankFileParsers
             return ret;
         }
 
+        /// <summary>
+        /// Returns a List of DetailSummary
+        /// </summary>
+        /// <param name="data">The translated BAI object</param>
+        /// <param name="dictionaryKeys">Any Keys in the Detail.TextDictionary (if any) you would like to export</param>
+        /// <returns>A List of DetailSummary</returns>
         public static List<DetailSummary> GetDetailInformation(TranslatedBaiFile data, List<string> dictionaryKeys)
         {
             var ret = new List<DetailSummary>();
@@ -183,14 +189,12 @@ namespace BankFileParsers
                             SenderIdentification = data.SenderIdentification,
                             Amount = BaiFileHelpers.GetAmount(detail.Amount, group.CurrencyCode),
                             BankReferenceNumber = detail.BankReferenceNumber,
+                            CustomerReferenceNumber = detail.CustomerReferenceNumber,
                             CustomerAccountNumber = account.CustomerAccountNumber,
                             Text = detail.Text,
                             TypeCode = detailType.TypeCode,
                             TypeDescription = detailType.Description,
                             FundType = detail.FundsType,
-                            //Immediate = BaiFileHelpers.GetAmount(detail.Immediate, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
-                            //OneDay = BaiFileHelpers.GetAmount(detail.OneDay, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
-                            //TwoOrMoreDays = BaiFileHelpers.GetAmount(detail.TwoOrMoreDays, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
                             TextDictionary = textDictionary
                         };
 
