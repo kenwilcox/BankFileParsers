@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BankFileParsers
 {
@@ -20,8 +21,9 @@ namespace BankFileParsers
         /// Pretty prints the translated object
         /// </summary>
         /// <param name="data">The object to pretty print</param>
+        /// <param name="maxWidth">The max width of the output string (just for the data column)</param>
         /// <returns>A string of the pretty printed data</returns>
-        public static string PrettyPrint(TranslatedBaiFile data, int maxWidth=60)
+        public static string PrettyPrint(TranslatedBaiFile data, int maxWidth = 60)
         {
             // I wanted to make this use reflection, but I also wanted to remove ReShaper warnings/hints
             // This is ugly - almost on purpose - ugh
@@ -113,9 +115,36 @@ namespace BankFileParsers
             return ret;
         }
 
-        public static string GetSummaryInformation(TranslatedBaiFile data)
+        /// <summary>
+        /// Returns a CSV file of the Summary/Header information in the BAI file
+        /// </summary>
+        /// <param name="data">The translated BAI object</param>
+        /// <returns>A CSV file format</returns>
+        public static List<SummaryHeader> GetSummaryInformation(TranslatedBaiFile data)
         {
-            return "--this is just a placeholder--";
+            var ret = new List<SummaryHeader>();
+            foreach (var group in data.Groups)
+            {
+                foreach (var account in group.Accounts)
+                {
+                    foreach (var fund in account.FundsTypes)
+                    {
+                        ret.Add(new SummaryHeader()
+                        {
+                            Date = group.AsOfDateTime,
+                            SenderIdentification = data.SenderIdentification,
+                            ReceiverIndetification = data.ReceiverIdentification,
+                            FileIdentificationNumber = data.FileIdentificationNumber,
+                            CurrencyCode = group.CurrencyCode,
+                            CustomerAccountNumber = account.CustomerAccountNumber,
+                            Amount = BaiFileHelpers.GetAmount(fund.Amount, group.CurrencyCode),
+                            Count = fund.ItemCount,
+                            FundType = fund.FundsType
+                        });
+                    }
+                }
+            }
+            return ret;
         }
 
         public static string GetDetailInformation(TranslatedBaiFile data)
