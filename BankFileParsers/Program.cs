@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 // ReSharper disable LoopCanBeConvertedToQuery
 // What ReSharper suggested is more confusing to read IMO
 
@@ -39,6 +41,12 @@ namespace BankFileParsers
 
             var summary = BaiTranslator.GetSummaryInformation(trans);
             Console.WriteLine("Summary Count: " + summary.Count);
+
+            var dictionaryKeys = new List<string> { "PREAUTHORIZED ACH FROM", "ORIGINATOR ID", "ENTRY DESCRIPTION", 
+                "PAYMENT ID", "RECEIVER INFORMATION", "ADDENDA INFORMATION" };
+            
+            var detail = BaiTranslator.GetDetailInformation(trans, dictionaryKeys);
+            Console.WriteLine("Detail Count: " + detail.Count);
 
             //parser.Write(fileName + ".new", bai);
         }

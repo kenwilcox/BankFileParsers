@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BankFileParsers
 {
@@ -132,6 +133,7 @@ namespace BankFileParsers
                         ret.Add(new SummaryHeader()
                         {
                             Date = group.AsOfDateTime,
+                            CreationDate = data.FileCreationDateTime,
                             SenderIdentification = data.SenderIdentification,
                             ReceiverIndetification = data.ReceiverIdentification,
                             FileIdentificationNumber = data.FileIdentificationNumber,
@@ -139,7 +141,9 @@ namespace BankFileParsers
                             CustomerAccountNumber = account.CustomerAccountNumber,
                             Amount = BaiFileHelpers.GetAmount(fund.Amount, group.CurrencyCode),
                             Count = fund.ItemCount,
-                            FundType = fund.FundsType
+                            FundType = fund.FundsType,
+                            TypeCode = fund.Detail.TypeCode,
+                            TypeDescription = fund.Detail.Description
                         });
                     }
                 }
@@ -147,9 +151,61 @@ namespace BankFileParsers
             return ret;
         }
 
-        public static string GetDetailInformation(TranslatedBaiFile data)
+        public static List<DetailSummary> GetDetailInformation(TranslatedBaiFile data, List<string> dictionaryKeys)
         {
-            return "--this is just a placeholder--";
+            var ret = new List<DetailSummary>();
+            foreach (var group in data.Groups)
+            {
+                foreach (var account in group.Accounts)
+                {
+                    foreach (var detail in account.Details)
+                    {
+                        var detailType = BaiFileHelpers.GetTransactionDetail(detail.TypeCode);
+                        var textDictionary = new Dictionary<string, string>();
+
+                        if (dictionaryKeys != null)
+                        {
+                            foreach (var key in dictionaryKeys)
+                            {
+                                if (detail.TextDictionary.ContainsKey(key))
+                                {
+                                    textDictionary.Add(key, detail.TextDictionary[key]);
+                                }
+                            }
+                        }
+
+                        var ds = new DetailSummary()
+                        {
+                            Date = group.AsOfDateTime,
+                            CreationDate = data.FileCreationDateTime,
+                            FileIdentificationNumber = data.FileIdentificationNumber,
+                            SenderIdentification = data.SenderIdentification,
+                            Amount = BaiFileHelpers.GetAmount(detail.Amount, group.CurrencyCode),
+                            BankReferenceNumber = detail.BankReferenceNumber,
+                            CustomerAccountNumber = account.CustomerAccountNumber,
+                            Text = detail.Text,
+                            TypeCode = detailType.TypeCode,
+                            TypeDescription = detailType.Description,
+                            FundType = detail.FundsType,
+                            //Immediate = BaiFileHelpers.GetAmount(detail.Immediate, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
+                            //OneDay = BaiFileHelpers.GetAmount(detail.OneDay, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
+                            //TwoOrMoreDays = BaiFileHelpers.GetAmount(detail.TwoOrMoreDays, group.CurrencyCode).ToString(CultureInfo.CurrentCulture),
+                            TextDictionary = textDictionary
+                        };
+
+                        // I don't want to return an optional, I want a blank string
+                        if (detail.Immediate != null)
+                            ds.Immediate = BaiFileHelpers.GetAmount(detail.Immediate, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
+                        if (detail.OneDay != null)
+                            ds.OneDay = BaiFileHelpers.GetAmount(detail.OneDay, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
+                        if (detail.TwoOrMoreDays != null)
+                            ds.TwoOrMoreDays = BaiFileHelpers.GetAmount(detail.TwoOrMoreDays, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
+
+                        ret.Add(ds);
+                    }
+                }
+            }
+            return ret;
         }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="CategoryTypeCodes.cs" />
     <Compile Include="ContinuationType.cs" />
     <Compile Include="Detail.cs" />
+    <Compile Include="DetailSummary.cs" />
     <Compile Include="FundType.cs" />
     <Compile Include="FundTypeHelper.cs" />
     <Compile Include="Group.cs" />
@@ -67,6 +68,8 @@
     <Compile Include="TransactionDetailBuilder.cs" />
     <Compile Include="TransactionType.cs" />
     <Compile Include="TranslatedBaiFile.cs" />
+    <Compile Include="Usage.cs" />
+    <Compile Include="UsageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -18,6 +18,8 @@ namespace BankFileParsers
         // Want to use tomorrows date, right?
         [Usage(UsageType.Both)]
         public DateTime Date { get; set; }
+        [Usage(UsageType.Oracle)]
+        public DateTime CreationDate { get; set; }
         [Usage(UsageType.Both)]
         public string SenderIdentification { get; set; }
         [Usage(UsageType.Oracle)]
@@ -34,22 +36,9 @@ namespace BankFileParsers
         public string Count { get; set; }
         [Usage(UsageType.TreasurySoftware)]
         public string FundType { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class Usage : Attribute
-    {
-        public UsageType Type { get; private set; }
-        public Usage(UsageType usageType)
-        {
-            Type = usageType;
-        }
-    }
-
-    public enum UsageType
-    {
-        Both,
-        Oracle,
-        TreasurySoftware
+        [Usage(UsageType.TreasurySoftware)]
+        public string TypeCode { get; set; }
+        [Usage(UsageType.TreasurySoftware)]
+        public string TypeDescription { get; set; }
     }
 }
