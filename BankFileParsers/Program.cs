@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace BankFileParsers
@@ -10,7 +11,7 @@ namespace BankFileParsers
         {
             var parser = new BaiParser();
 
-            const string fileName = @"C:\Temp\bank_files\BAI.txt";
+            const string fileName = @"C:\Temp\bank_files\all bank accounts bai.txt";
             var bai = parser.Parse(fileName);
             var trans = BaiTranslator.Translate(bai);
 
@@ -28,6 +29,22 @@ namespace BankFileParsers
             //parser.Write(fileName + ".new", bai);
 
             // Dump to CSV?
+            detail.CsvFieldSeparator('|');
+            // Set the prefix
+            detail.CsvFieldPrefix('[');
+            // different than the postfix
+            detail.CsvFieldPostfix(']');
+            // or set them to the same
+            detail.CsvFieldPrefixPostfix('"');
+            // or turn them all off
+            detail.CsvDisablePrefixPostFix();
+            //var csv = detail.ExportToCsv(null);//dictionaryKeys);
+
+            // you can even just export a single column if you want
+            //var csv = detail.ExportToCsv(null, new List<string> { "FileIdentificationNumber" });
+            // It can be just a dictionary key
+            var csv = detail.ExportToCsv(new List<string>{"PAYMENT ID"}, new List<string>());
+            File.WriteAllText(@"C:\Temp\bank_files\all bank accounts bai.csv", csv);
         }
     }
 }

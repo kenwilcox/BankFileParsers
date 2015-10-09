@@ -61,6 +61,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="GroupStatus.cs" />
     <Compile Include="LevelType.cs" />
+    <Compile Include="ListToCsv.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SummaryHeader.cs" />
