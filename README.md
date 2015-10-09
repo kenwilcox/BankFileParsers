@@ -23,9 +23,9 @@ I'm borrowing heavily from the [Field Mapping for Automatic Bank Statement Proce
 
 Table definition can be found [here](http://www.jdetables.com/?schema=812&table=F09610)
 
-See [SummaryHeader](blob/master/BankFileParsers/Classes/SummaryHeader.cs) for output
+See [SummaryHeader](BankFileParsers/Classes/SummaryHeader.cs) for output
 
 ## DETAIL TABLE
 Table definition can be found [here](http://www.jdetables.com/?schema=812&table=F09611)
 
-See [DetailSummary](blob/master/BankFileParsers/Classes/DetailSummary.cs) for output
+See [DetailSummary](BankFileParsers/Classes/DetailSummary.cs) for output
