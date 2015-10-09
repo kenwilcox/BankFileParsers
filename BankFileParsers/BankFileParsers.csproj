@@ -42,39 +42,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="AccountFundTypeFactory.cs" />
-    <Compile Include="AsOfDateModifier.cs" />
-    <Compile Include="BaiAccount.cs" />
-    <Compile Include="BaiDetail.cs" />
-    <Compile Include="BaiFile.cs" />
-    <Compile Include="BaiFileHelpers.cs" />
-    <Compile Include="BaiGroup.cs" />
-    <Compile Include="BaiParser.cs" />
-    <Compile Include="BaiTranslator.cs" />
-    <Compile Include="CategoryTypeCodes.cs" />
-    <Compile Include="ContinuationType.cs" />
-    <Compile Include="Detail.cs" />
-    <Compile Include="DetailSummary.cs" />
-    <Compile Include="FundType.cs" />
-    <Compile Include="FundTypeHelper.cs" />
-    <Compile Include="Group.cs" />
-    <Compile Include="GroupStatus.cs" />
-    <Compile Include="LevelType.cs" />
-    <Compile Include="ListToCsv.cs" />
+    <Compile Include="Classes\Account.cs" />
+    <Compile Include="Helpers\AccountFundTypeFactory.cs" />
+    <Compile Include="Enums\AsOfDateModifier.cs" />
+    <Compile Include="Classes\BaiAccount.cs" />
+    <Compile Include="Classes\BaiDetail.cs" />
+    <Compile Include="Classes\BaiFile.cs" />
+    <Compile Include="Helpers\BaiFileHelpers.cs" />
+    <Compile Include="Classes\BaiGroup.cs" />
+    <Compile Include="Parsers\BaiParser.cs" />
+    <Compile Include="Parsers\BaiTranslator.cs" />
+    <Compile Include="Enums\CategoryTypeCodes.cs" />
+    <Compile Include="Enums\ContinuationType.cs" />
+    <Compile Include="Classes\Detail.cs" />
+    <Compile Include="Classes\DetailSummary.cs" />
+    <Compile Include="Classes\FundType.cs" />
+    <Compile Include="Helpers\FundTypeHelper.cs" />
+    <Compile Include="Classes\Group.cs" />
+    <Compile Include="Enums\GroupStatus.cs" />
+    <Compile Include="Enums\LevelType.cs" />
+    <Compile Include="Helpers\ListToCsv.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SummaryHeader.cs" />
-    <Compile Include="TransactionDetail.cs" />
-    <Compile Include="TransactionDetailBuilder.cs" />
-    <Compile Include="TransactionType.cs" />
-    <Compile Include="TranslatedBaiFile.cs" />
-    <Compile Include="Usage.cs" />
-    <Compile Include="UsageType.cs" />
+    <Compile Include="Classes\SummaryHeader.cs" />
+    <Compile Include="Classes\TransactionDetail.cs" />
+    <Compile Include="Helpers\TransactionDetailBuilder.cs" />
+    <Compile Include="Enums\TransactionType.cs" />
+    <Compile Include="Classes\TranslatedBaiFile.cs" />
+    <Compile Include="Classes\Usage.cs" />
+    <Compile Include="Enums\UsageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
