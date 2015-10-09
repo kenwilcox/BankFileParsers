@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BankFileParsers
+namespace BankFileParsers.Example
 {
     public static class Program
     {
@@ -11,7 +11,7 @@ namespace BankFileParsers
         {
             var parser = new BaiParser();
 
-            const string fileName = @"C:\Temp\bank_files\all bank accounts bai.txt";
+            const string fileName = @"BAI-sample.txt";
             var bai = parser.Parse(fileName);
             var trans = BaiTranslator.Translate(bai);
 
@@ -26,25 +26,26 @@ namespace BankFileParsers
             Console.WriteLine("Detail Count: " + detail.Count);
             Console.WriteLine("Detail with Dictionary: " + detailDictionary.Count);
 
-            //parser.Write(fileName + ".new", bai);
+            // Verify that the parser works - do a diff with the imput file
+            parser.Write(fileName + ".new", bai);
 
             // Dump to CSV?
-            detail.CsvFieldSeparator('|');
+            //detail.CsvFieldSeparator('|');
             // Set the prefix
-            detail.CsvFieldPrefix('[');
+            //detail.CsvFieldPrefix('[');
             // different than the postfix
-            detail.CsvFieldPostfix(']');
+            //detail.CsvFieldPostfix(']');
             // or set them to the same
-            detail.CsvFieldPrefixPostfix('"');
+            //detail.CsvFieldPrefixPostfix('"');
             // or turn them all off
-            detail.CsvDisablePrefixPostFix();
-            //var csv = detail.ExportToCsv(null);//dictionaryKeys);
+            //detail.CsvDisablePrefixPostFix();
+            var csv = detail.ExportToCsv(null);//dictionaryKeys);
 
             // you can even just export a single column if you want
             //var csv = detail.ExportToCsv(null, new List<string> { "FileIdentificationNumber" });
             // It can be just a dictionary key
-            var csv = detail.ExportToCsv(new List<string>{"PAYMENT ID"}, new List<string>());
-            File.WriteAllText(@"C:\Temp\bank_files\all bank accounts bai.csv", csv);
+            //var csv = detail.ExportToCsv(new List<string>{"PAYMENT ID"}, new List<string>());
+            File.WriteAllText(@"BAI-sample.csv", csv);
         }
     }
 }
