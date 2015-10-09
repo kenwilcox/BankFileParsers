@@ -11,9 +11,9 @@ We're not sure what we need, so I plan on doing ~~both~~, looks like just the BA
  - [x] Write parsed output to exact input
  - [ ] override ToString() to clean up the Write Method
  - [x] Create a Translation class to take the parsed files into detail
- - [ ] Handle the fund type "D"
+ - [x] Handle the fund type "D"
  - [x] Use the new Transaction Detail object (more informative than the 010 code)
- - [x] ~~Use the Currency Code to figure out the correct currency amount (right now it's still a raw string)~~
+ - [x] Use the Currency Code to figure out the correct currency amount
  - [x] Create a method so the user can convert the amount
  - [x] ~~Take the translation and write the input file~~ Don't have time to do this right now
  - [x] Output Summary and Detail to CSV files
