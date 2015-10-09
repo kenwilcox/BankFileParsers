@@ -18,7 +18,7 @@ namespace BankFileParsers
             var lineData = "";
             foreach (var section in data)
             {
-                var line = section;
+                var line = section.Trim();
                 if (!line.EndsWith("/")) throw new Exception("I got a line without a trailing /");
                 line = line.Replace("/", "");
 
@@ -44,7 +44,7 @@ namespace BankFileParsers
 
         public FundType GetNext()
         {
-            return FundTypeHelper.GetNext(_stack);
+            return FundTypeHelper.GetNext(_stack, CurrencyCode);
         }
     }
 }

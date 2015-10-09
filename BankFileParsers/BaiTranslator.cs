@@ -130,6 +130,7 @@ namespace BankFileParsers
                 {
                     foreach (var fund in account.FundsTypes)
                     {
+                        var amount = BaiFileHelpers.GetAmount(fund.Amount, group.CurrencyCode);
                         ret.Add(new SummaryHeader()
                         {
                             Date = group.AsOfDateTime,
@@ -139,7 +140,7 @@ namespace BankFileParsers
                             FileIdentificationNumber = data.FileIdentificationNumber,
                             CurrencyCode = group.CurrencyCode,
                             CustomerAccountNumber = account.CustomerAccountNumber,
-                            Amount = BaiFileHelpers.GetAmount(fund.Amount, group.CurrencyCode),
+                            Amount = amount,
                             Count = fund.ItemCount,
                             FundType = fund.FundsType,
                             TypeCode = fund.Detail.TypeCode,
@@ -194,11 +195,11 @@ namespace BankFileParsers
                         };
 
                         // I don't want to return an optional, I want a blank string
-                        if (detail.Immediate != null)
+                        if (!string.IsNullOrEmpty(detail.Immediate))
                             ds.Immediate = BaiFileHelpers.GetAmount(detail.Immediate, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
-                        if (detail.OneDay != null)
+                        if (!string.IsNullOrEmpty(detail.OneDay))
                             ds.OneDay = BaiFileHelpers.GetAmount(detail.OneDay, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
-                        if (detail.TwoOrMoreDays != null)
+                        if (!string.IsNullOrEmpty(detail.TwoOrMoreDays))
                             ds.TwoOrMoreDays = BaiFileHelpers.GetAmount(detail.TwoOrMoreDays, group.CurrencyCode).ToString(CultureInfo.CurrentCulture);
 
                         ret.Add(ds);

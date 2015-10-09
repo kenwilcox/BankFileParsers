@@ -24,9 +24,9 @@ namespace BankFileParsers
         {
             Accounts = new List<Account>();
 
-            if (!data.GroupHeader.EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
-            if (!data.GroupTrailer.EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
-            var fields = data.GroupHeader.Split(',');
+            if (!data.GroupHeader.Trim().EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
+            if (!data.GroupTrailer.Trim().EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
+            var fields = data.GroupHeader.Trim().Split(',');
             if (fields.Length != 8) throw new NotImplementedException("Bai file does not have proper number of GroupHeader elements, I don't know how to handle this");
 
             HeaderRecordCode = fields[0];

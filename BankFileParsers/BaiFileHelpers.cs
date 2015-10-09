@@ -14,6 +14,7 @@ namespace BankFileParsers
             // An end of day can be 9999, if it is they really ment 2400
             var dateString = date;
             if (time == "9999") dateString += "2400";
+            if (time == string.Empty) dateString += "0000";
             else dateString += time;
 
             return DateTime.ParseExact(dateString, "yyMMddHHmm", CultureInfo.InvariantCulture);

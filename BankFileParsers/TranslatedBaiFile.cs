@@ -26,9 +26,9 @@ namespace BankFileParsers
             Groups = new List<Group>();
 
             // Translate myself, and walk the file
-            if (!data.FileHeader.EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
-            if (!data.FileTrailer.EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
-            var fields = data.FileHeader.Split(',');
+            if (!data.FileHeader.Trim().EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
+            if (!data.FileTrailer.Trim().EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
+            var fields = data.FileHeader.Trim().Split(',');
             if (fields.Length != 9) throw new NotImplementedException("Bai file does not have proper number of FileHeader elements, I don't know how to handle this");
             
 

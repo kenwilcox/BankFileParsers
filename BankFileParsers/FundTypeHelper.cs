@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace BankFileParsers
 {
     public static class FundTypeHelper
     {
-        public static FundType GetNext(Stack stack)
+        public static FundType GetNext(Stack stack, string currencyCode)
         {
             if (stack.Count < 4) return null;
             var typeCode = stack.Pop().ToString();
@@ -24,7 +25,15 @@ namespace BankFileParsers
                 case "D":
                     // next field is the number of distripution pairs
                     // number of days, avalible amount
-                    throw new Exception("I don't want to deal with this one yet");
+                    var info = new Dictionary<int, decimal>();
+                    var count = int.Parse(stack.Pop().ToString());
+                    for (var i = 0; i < count; i++)
+                    {
+                        var key = int.Parse(stack.Pop().ToString());
+                        var v = BaiFileHelpers.GetAmount(stack.Pop().ToString(), currencyCode);
+                        info.Add(key, v);
+                    }
+                    return new FundType(typeCode, amount, itemCount, fundsType, count.ToString(), info);
                 case "V":
                     var date = stack.Pop().ToString();
                     var time = stack.Pop().ToString();

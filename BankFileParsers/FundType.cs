@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BankFileParsers
 {
@@ -13,6 +14,8 @@ namespace BankFileParsers
         public string OneDay { get; set; }
         public string TwoOrMoreDays { get; set; }
         public DateTime? AvalibleDate { get; set; }
+        public string NumberOfDistributions { get; set; }
+        public Dictionary<int, decimal> DistributionInfo { get; set; }
 
         public FundType(string typeCode, string amount, string itemCount, string fundsType)
         {
@@ -20,7 +23,7 @@ namespace BankFileParsers
             Detail = BaiFileHelpers.GetTransactionDetail(typeCode);
             Amount = amount;
             ItemCount = itemCount;
-            FundsType = fundsType;
+            FundsType = fundsType;            
         }
 
         public FundType(string typeCode, string amount, string itemCount, string fundsType, string immediate, string oneDay, string moreDays) :
@@ -35,6 +38,13 @@ namespace BankFileParsers
             this(typeCode, amount, itemCount, fundsType)
         {
             AvalibleDate = avalibleDate;
+        }
+
+        public FundType(string typeCode, string amount, string itemCount, string fundsType, string distributions, Dictionary<int, decimal> info) :
+            this(typeCode, amount, itemCount, fundsType)
+        {
+            NumberOfDistributions = distributions;
+            DistributionInfo = info;
         }
     }
 }

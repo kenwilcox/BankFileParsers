@@ -32,8 +32,9 @@ namespace BankFileParsers
             var lineData = "";
             foreach (var section in list)
             {
-                var line = section;
-                if (!line.EndsWith("/")) throw new Exception("I got a line without a trailing /");
+                var line = section.Trim();
+                // Some / are optional?
+                //if (!line.EndsWith("/")) throw new Exception("I got a line without a trailing /");
 
                 if (line.StartsWith("16"))
                 {
