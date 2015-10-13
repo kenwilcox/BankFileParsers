@@ -31,6 +31,10 @@ Table definition can be found [here](http://www.jdetables.com/?schema=812&table=
 See [DetailSummary](BankFileParsers/Classes/DetailSummary.cs) for output
 
 ## USAGE
+```
+Install-Package BankFileParsers
+```
+
 The first class that you will need to use is the ```BaiParser```. It's actually pretty basic, it takes an existing BAI file and creates an object tree/graph
 
 ```csharp
