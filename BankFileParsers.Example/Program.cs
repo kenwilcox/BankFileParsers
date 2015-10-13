@@ -39,7 +39,7 @@ namespace BankFileParsers.Example
             //detail.CsvFieldPrefixPostfix('"');
             // or turn them all off
             //detail.CsvDisablePrefixPostFix();
-            var csv = detail.ExportToCsv(null);//dictionaryKeys);
+            var csv = detail.ExportToCsv();//dictionaryKeys);
 
             // you can even just export a single column if you want
             //var csv = detail.ExportToCsv(null, new List<string> { "FileIdentificationNumber" });

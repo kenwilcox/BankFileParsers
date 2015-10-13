@@ -106,7 +106,7 @@ namespace BankFileParsers
             return ret;
         }
 
-        public static string ExportToCsv<T>(this List<T> list, List<string> dictionaryKeys)
+        public static string ExportToCsv<T>(this List<T> list, List<string> dictionaryKeys = null)
         {
             var fields = new List<string>();
             var type = typeof (T);
