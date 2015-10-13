@@ -22,7 +22,7 @@ namespace BankFileParsers
 
         public static string ExportToCsv<T>(this List<T> list, List<string> dictionaryKeys, List<string> fields)
         {
-            if (fields == null) throw new NotImplementedException("fields cannot be null, worse case, pass in an empty list");
+            if (fields == null) fields = new List<string>();
             var ret = "";
             var dict = new Dictionary<string, PropertyInfo>();
             var type = typeof (T);
