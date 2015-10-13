@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Ken Wilcox</authors>
+    <owners>Ken Wilcox</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/kenwilcox/BankFileParsers</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Utility methods and classes for parsing common bank files</description>
+    <releaseNotes>BAI II parser and translator</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>parse bank bai</tags>
+  </metadata>
+</package>
