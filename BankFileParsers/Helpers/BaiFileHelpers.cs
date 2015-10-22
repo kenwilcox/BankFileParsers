@@ -17,7 +17,16 @@ namespace BankFileParsers
             if (time == string.Empty) dateString += "0000";
             else dateString += time;
 
-            return DateTime.ParseExact(dateString, "yyMMddHHmm", CultureInfo.InvariantCulture);
+            const string format = "yyMMddHHmm";
+            var hourPos = format.IndexOf("HH", StringComparison.Ordinal);
+            var hour = dateString.Substring(hourPos, 2);
+            var addDay = hour == "24";
+            if (addDay) dateString = dateString.Substring(0, hourPos) + "00" + dateString.Substring(hourPos + 2);
+            
+            var dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+            if (addDay) dateTime += TimeSpan.FromHours(24);
+
+            return dateTime;
         }
 
         public static GroupStatus GetGroupStatus(string statusCode)
