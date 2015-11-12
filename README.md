@@ -35,11 +35,11 @@ See [DetailSummary](BankFileParsers/Classes/DetailSummary.cs) for output
 Install-Package BankFileParsers
 ```
 
-The first class that you will need to use is the ```BaiParser```. It's actually pretty basic, it takes an existing BAI file and creates an object tree/graph
+The first class that you will need to use is the ```BaiParser```. It's actually pretty basic; it takes an existing BAI file and creates an object tree/graph
 
 ```csharp
 var parser = new BaiParser();
-var bai = parser.parser("--path to file--");
+var bai = parser.Parse("--path to file--");
 ```
 
 The ```bai``` object created above will contain a _thin_ object graph that follows this format
@@ -50,9 +50,9 @@ BaiFile
   |-- List<BaiAccount>
     |-- List<BaiDetail>
 ```
-So, a BaiFile contains a List of Groups, Each Group has a list of accounts, each account has a list of details - whew!
+So, a BaiFile contains a List of Groups, Each Group has a list of accounts; each account has a list of details - whew!
 
-Which actually follows the spec defined in the BAI document listed above.
+This actually follows the spec defined in the BAI document listed above.
 
 You can in turn ask the parser to write the parsed data back out like so
 
@@ -60,9 +60,9 @@ You can in turn ask the parser to write the parsed data back out like so
 parser.Write("--new filename--", bai);
 ```
 
-This **should** create a file that is an exact match as the origional file (100% match on the four files I use in testing).
+This **should** create a file that is an exact match as the original file (100% matches on the four files I use in testing).
 
-The parsed data may or may not be of any use to you. Therefore the ```BaiTranslator```
+The parsed data may or may not be of any use to you. If you need more *translation* there is the ```BaiTranslator```
 This object is responsible for Translating the parsed data to something that could be more usable and the object graph is very similar to the one the parser creates.
 
 ```csharp
@@ -73,7 +73,7 @@ This then returns a TranslatedBaiFile with ```List<Group>```, ```List<Account>``
 
 ### Additions
 
-The document states that the Detail can contain a Text field, and those can have continuation records. This seems more like a free form text field and it's up to the financial institution to define what they put in there. Since this could mean anything I've added a TextList object that tries to parse each individual section in the text file into individual lines. For example you could have a text filed that looks like this (sensitive information redacted):
+The document states that the Detail can contain a Text field and those can have continuation records. This seems more like a free form text field and it's up to the financial institution to define what they put in there. Since this could mean anything I've added a TextList object that tries to parse each individual section in the text file into individual lines. For example you could have a text filed that looks like this (sensitive information redacted):
 
 ```
 PREAUTHORIZED ACH CREDIT/PREAUTHORIZED ACH FROM:SOME BANK I                     100115/ORIGINATOR ID:XXXXXXXXXX4108/ENTRY DESCRIPTION:DESCRIPTION HERE/PAYMENT ID:105XXXXXX/RECEIVER INFORMATION:YOUR BANK ACCOUNT/TRACER ID NUMBER:XXX27400XXXXXXX/ADDENDA INFORMATION:/TRN*1*XXXXXXXXXXXXXXX*XXXXXXXXXX/,XXXXXXXXXXXX/
@@ -137,7 +137,7 @@ File.WriteAllText(@"BAI-sample.csv", csv);
 ```
 
 This will put all fields in the detail object in a list of CSV (with a header). 
-You can use the two optinal parameters to specify which fields you would like to export as well as which dictionary keys you would like to export.
+You can use the two optional parameters to specify which fields you would like to export as well as which dictionary keys you would like to export.
 You can use it as so:
 
 ```csharp
@@ -147,7 +147,7 @@ File.WriteAllText(@"BAI-sample.csv", csv);
 Dictionary keys are appended to the normal csv output.
 A clever person could see that using reflection they can get a list of the field names with a usage type of Oracle and Both to just export the fields defined/used there.
 
-So the above code would create a csv file that would like like so:
+So the above code would create a csv file that would look like so:
 
 |Date|Amount|PAYMENT ID|ADDENDA INFORMATION|
 |----|------|----------|-------------------|
