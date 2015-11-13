@@ -11,7 +11,8 @@ namespace BankFileParsers.Example
         {
             var parser = new BaiParser();
 
-            const string fileName = @"BAI-sample.txt";
+            //const string fileName = @"BAI-sample.txt";
+            const string fileName = @"C:\temp\bank_files\BAI ACH Credits received CEP America.txt";
             var bai = parser.Parse(fileName);
             var trans = BaiTranslator.Translate(bai);
 
@@ -39,13 +40,14 @@ namespace BankFileParsers.Example
             //detail.CsvFieldPrefixPostfix('"');
             // or turn them all off
             //detail.CsvDisablePrefixPostFix();
-            var csv = detail.ExportToCsv();//dictionaryKeys);
+            var csv = detail.ExportToCsv(dictionaryKeys);
 
             // you can even just export a single column if you want
             //var csv = detail.ExportToCsv(null, new List<string> { "FileIdentificationNumber" });
             // It can be just a dictionary key
             //var csv = detail.ExportToCsv(new List<string>{"PAYMENT ID"}, new List<string>());
-            File.WriteAllText(@"BAI-sample.csv", csv);
+            //File.WriteAllText(@"BAI-sample.csv", csv);
+            File.WriteAllText(@"C:\temp\bank_files\BAI ACH Credits received CEP America.txt.csv", csv);
         }
     }
 }
