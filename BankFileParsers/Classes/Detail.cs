@@ -79,7 +79,7 @@ namespace BankFileParsers
             CustomerReferenceNumber = stack.Pop().ToString();
             // What's left on the stack?
             Text = LeftoverStackToString(stack);
-            
+
             CreateTextList();
             CreateTextDictionary();
         }

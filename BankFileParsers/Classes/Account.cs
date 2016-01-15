@@ -35,7 +35,7 @@ namespace BankFileParsers
                 FundsTypes.Add(fundType);
                 fundType = factory.GetNext();
             }
-            
+
 
             // Time to get the details
             foreach (var detail in data.Details)

@@ -30,7 +30,7 @@ namespace BankFileParsers
             if (!data.FileTrailer.Trim().EndsWith("/")) throw new NotImplementedException("Bai file is not properly formatted, I don't know how to handle this");
             var fields = data.FileHeader.Trim().Split(',');
             if (fields.Length != 9) throw new NotImplementedException("Bai file does not have proper number of FileHeader elements, I don't know how to handle this");
-            
+
 
             HeaderRecordCode = fields[0];
             SenderIdentification = fields[1];
@@ -44,7 +44,7 @@ namespace BankFileParsers
 
             // Handle date 3, 4
             FileCreationDateTime = BaiFileHelpers.DateTimeFromFields(fields[3], fields[4]);
-            // End of Header            
+            // End of Header
 
             foreach (var group in data.Groups)
             {

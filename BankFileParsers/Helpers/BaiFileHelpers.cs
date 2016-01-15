@@ -8,7 +8,7 @@ namespace BankFileParsers
     public static class BaiFileHelpers
     {
         private static List<TransactionDetail> _transactionDetail;
-        
+
         public static DateTime DateTimeFromFields(string date, string time)
         {
             // An end of day can be 9999, if it is they really ment 2400
@@ -22,7 +22,7 @@ namespace BankFileParsers
             var hour = dateString.Substring(hourPos, 2);
             var addDay = hour == "24";
             if (addDay) dateString = dateString.Substring(0, hourPos) + "00" + dateString.Substring(hourPos + 2);
-            
+
             var dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
             if (addDay) dateTime += TimeSpan.FromHours(24);
 

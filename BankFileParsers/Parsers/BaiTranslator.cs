@@ -39,7 +39,7 @@ namespace BankFileParsers
             ret += Format("PhysicalRecordLength", data.PhysicalRecordLength, indent);
             ret += Format("BlockSize", data.BlockSize, indent);
             ret += Format("VersionNumber", data.VersionNumber, indent);
-            
+
             foreach (var group in data.Groups)
             {
                 indent++;
@@ -74,7 +74,7 @@ namespace BankFileParsers
 
                     }
                     indent--;
-                    
+
                     // details
                     ret += Format("Details", "", indent);
                     indent++;

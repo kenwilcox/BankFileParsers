@@ -77,7 +77,7 @@ namespace BankFileParsers
                     account = new BaiAccount(line);
                     detail = new BaiDetail("--default--");
                 }
-                
+
                 else if (line.StartsWith("49"))
                 {
                     if (detail.TransactionDetail != "--default--")
@@ -93,7 +93,7 @@ namespace BankFileParsers
                         account.Details.Add(detail);
                     }
                     continuation = ContinuationType.Detail;
-                    detail = new BaiDetail(line);                    
+                    detail = new BaiDetail(line);
                 }
 
                 else if (line.StartsWith("88"))

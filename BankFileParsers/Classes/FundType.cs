@@ -23,7 +23,7 @@ namespace BankFileParsers
             Detail = BaiFileHelpers.GetTransactionDetail(typeCode);
             Amount = amount;
             ItemCount = itemCount;
-            FundsType = fundsType;            
+            FundsType = fundsType;
         }
 
         public FundType(string typeCode, string amount, string itemCount, string fundsType, string immediate, string oneDay, string moreDays) :
