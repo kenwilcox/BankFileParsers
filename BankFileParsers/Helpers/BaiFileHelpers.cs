@@ -71,8 +71,10 @@ namespace BankFileParsers
 
         public static decimal GetAmount(string amount, string currencyCode)
         {
+            var neededLength = GetDecimalPlaces(currencyCode);
             if (string.IsNullOrEmpty(amount)) return 0;
-            amount = amount.Insert(amount.Length - GetDecimalPlaces(currencyCode), ".");
+            if (amount.Length < neededLength) amount = amount.PadLeft(neededLength+1, '0');
+            amount = amount.Insert(amount.Length - neededLength, ".");
             return decimal.Parse(amount);
         }
 
