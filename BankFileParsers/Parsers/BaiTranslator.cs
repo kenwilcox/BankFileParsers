@@ -138,7 +138,7 @@ namespace BankFileParsers
                             SenderIdentification = data.SenderIdentification,
                             ReceiverIndetification = data.ReceiverIdentification,
                             FileIdentificationNumber = data.FileIdentificationNumber,
-                            CurrencyCode = group.CurrencyCode,
+                            CurrencyCode = account.CurrencyCode,
                             CustomerAccountNumber = account.CustomerAccountNumber,
                             Amount = amount,
                             Count = fund.ItemCount,
