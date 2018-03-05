@@ -570,7 +570,7 @@ namespace BuildTransactionDetail
 
         private static void Export(string data, string categoryType)
         {
-            var lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = data.Split(new[] { Environment.NewLine, "\r", "\n" }, StringSplitOptions.None);
             Console.WriteLine("#region " + categoryType.Replace("CategoryTypeCodes.", ""));
             foreach (var line in lines)
             {
