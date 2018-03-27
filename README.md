@@ -141,7 +141,7 @@ You can use the two optional parameters to specify which fields you would like t
 You can use it as so:
 
 ```csharp
-var csv = detail.ExportToCsv(dictionaryKeys, new List<string> {"Date", "Amount"};
+var csv = detail.ExportToCsv(dictionaryKeys, new List<string> {"Date", "Amount"});
 File.WriteAllText(@"BAI-sample.csv", csv);
 ```
 Dictionary keys are appended to the normal csv output.
