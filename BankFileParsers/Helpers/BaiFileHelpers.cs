@@ -74,10 +74,16 @@ namespace BankFileParsers
             var neededLength = GetDecimalPlaces(currencyCode);
             if (string.IsNullOrEmpty(amount)) return 0;
             if (amount.Length < neededLength) amount = amount.PadLeft(neededLength+1, '0');
-            amount = amount.Insert(amount.Length - neededLength, ".");
-            return decimal.Parse(amount);
-        }
+           
+              amount = amount.Insert(amount.Length - neededLength, ".");
 
+              decimal.TryParse(amount,
+                  NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
+                  CultureInfo.InvariantCulture,
+                  out var resultAmount);
+            return resultAmount;
+        }
+    
         public static AsOfDateModifier GetAsOfDateModifier(string modifier)
         {
             var ret = AsOfDateModifier.Missing;
