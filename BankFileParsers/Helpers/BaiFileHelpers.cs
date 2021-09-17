@@ -71,19 +71,27 @@ namespace BankFileParsers
 
         public static decimal GetAmount(string amount, string currencyCode)
         {
+            amount = TrimStart(amount, "+");
             var neededLength = GetDecimalPlaces(currencyCode);
             if (string.IsNullOrEmpty(amount)) return 0;
-            if (amount.Length < neededLength) amount = amount.PadLeft(neededLength+1, '0');
-           
-              amount = amount.Insert(amount.Length - neededLength, ".");
-
-              decimal.TryParse(amount,
-                  NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
-                  CultureInfo.InvariantCulture,
-                  out var resultAmount);
-            return resultAmount;
+            if (amount.Length < neededLength) amount = amount.PadLeft(neededLength + 1, '0');
+            amount = amount.Insert(amount.Length - neededLength, ".");
+            return decimal.Parse(amount);
         }
-    
+
+        public static string TrimStart(this string target, string trimString)
+        {
+            if (string.IsNullOrEmpty(trimString)) return target;
+
+            string result = target;
+            while (result.StartsWith(trimString))
+            {
+                result = result.Substring(trimString.Length);
+            }
+
+            return result;
+        }
+
         public static AsOfDateModifier GetAsOfDateModifier(string modifier)
         {
             var ret = AsOfDateModifier.Missing;
