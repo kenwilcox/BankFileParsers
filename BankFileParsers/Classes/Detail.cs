@@ -38,11 +38,19 @@ namespace BankFileParsers
 
                 if (line.StartsWith("16"))
                 {
-                    line = line.Replace("/", "");
+                    if (!line.EndsWith("/"))
+                    {
+                        line += "/";
+                    }
                 }
                 else if (line.StartsWith("88"))
                 {
                     line = line.Substring(2);//.Replace("/", " ");
+
+                    if (!line.EndsWith("/"))
+                    {
+                        line += "/";
+                    }
                 }
                 else throw new Exception("I got a bad line: " + line);
                 lineData += line;
@@ -98,15 +106,7 @@ namespace BankFileParsers
             var fields = Text.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var field in fields)
             {
-                if (TextList.Count > 0 && !field.Contains(":"))
-                {
-                    var text = TextList[TextList.Count - 1];
-                    if (text.EndsWith(":")) text += field;
-                    else text += " " + field;
-                    TextList[TextList.Count - 1] = text;
-                }
-                else
-                    TextList.Add(field);
+                TextList.Add(field);
             }
         }
 
