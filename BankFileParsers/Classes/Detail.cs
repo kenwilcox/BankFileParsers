@@ -121,7 +121,7 @@ namespace BankFileParsers
             {
                 if (dictionaryList.Count > 0 && !field.Contains(":"))
                 {
-                    var text = dictionaryList[TextList.Count - 1];
+                    var text = dictionaryList[dictionaryList.Count - 1];
                     if (text.EndsWith(":")) text += field;
                     else text += " " + field;
                     dictionaryList[dictionaryList.Count - 1] = text;
