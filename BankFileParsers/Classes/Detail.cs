@@ -115,7 +115,22 @@ namespace BankFileParsers
 
         private void CreateTextDictionary()
         {
-            foreach (var item in TextList)
+            var dictionaryList = new List<string>();
+            var fields = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var field in fields)
+            {
+                if (dictionaryList.Count > 0 && !field.Contains(":"))
+                {
+                    var text = dictionaryList[TextList.Count - 1];
+                    if (text.EndsWith(":")) text += field;
+                    else text += " " + field;
+                    dictionaryList[dictionaryList.Count - 1] = text;
+                }
+                else
+                    dictionaryList.Add(field);
+            }
+
+            foreach (var item in dictionaryList)
             {
                 var parts = item.Split(':');
                 if (parts.Length != 2) continue;
