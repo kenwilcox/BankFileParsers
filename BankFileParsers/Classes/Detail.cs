@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace BankFileParsers
 {
@@ -90,6 +91,8 @@ namespace BankFileParsers
 
             CreateTextList();
             CreateTextDictionary();
+
+            Text = ConcatenateTextLines();
         }
 
         private string LeftoverStackToString(Stack stack)
@@ -133,6 +136,26 @@ namespace BankFileParsers
                     }
                 }
             }
+        }
+
+        private string ConcatenateTextLines()
+        {
+            var fields = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var concatText = new StringBuilder();
+
+            foreach (var field in fields)
+            {
+                if (concatText.ToString().EndsWith(":"))
+                {
+                    concatText.Append(field);
+                }
+                else
+                {
+                    concatText.Append(" " + field);
+                }
+            }
+
+            return concatText.ToString();
         }
     }
 }
