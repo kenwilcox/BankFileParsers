@@ -11,9 +11,11 @@ namespace BankFileParsers
 
         public static DateTime DateTimeFromFields(string date, string time)
         {
+            if (string.IsNullOrWhiteSpace(date) && string.IsNullOrWhiteSpace(time)) return DateTime.MinValue;
+
             // An end of day can be 9999, if it is they really ment 2400
             var dateString = date;
-            if (time == "9999") dateString += "2400";
+            if (time == "9999") time = "2400";
             if (time == string.Empty) dateString += "0000";
             else dateString += time;
 
