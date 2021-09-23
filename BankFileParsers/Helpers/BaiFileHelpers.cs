@@ -11,9 +11,11 @@ namespace BankFileParsers
 
         public static DateTime DateTimeFromFields(string date, string time)
         {
+            if (string.IsNullOrWhiteSpace(date) && string.IsNullOrWhiteSpace(time)) return DateTime.MinValue;
+
             // An end of day can be 9999, if it is they really ment 2400
             var dateString = date;
-            if (time == "9999") dateString += "2400";
+            if (time == "9999") time = "2400";
             if (time == string.Empty) dateString += "0000";
             else dateString += time;
 
@@ -71,11 +73,25 @@ namespace BankFileParsers
 
         public static decimal GetAmount(string amount, string currencyCode)
         {
+            amount = TrimStart(amount, "+");
             var neededLength = GetDecimalPlaces(currencyCode);
             if (string.IsNullOrEmpty(amount)) return 0;
-            if (amount.Length < neededLength) amount = amount.PadLeft(neededLength+1, '0');
+            if (amount.Length < neededLength) amount = amount.PadLeft(neededLength + 1, '0');
             amount = amount.Insert(amount.Length - neededLength, ".");
             return decimal.Parse(amount);
+        }
+
+        public static string TrimStart(this string target, string trimString)
+        {
+            if (string.IsNullOrEmpty(trimString)) return target;
+
+            string result = target;
+            while (result.StartsWith(trimString))
+            {
+                result = result.Substring(trimString.Length);
+            }
+
+            return result;
         }
 
         public static AsOfDateModifier GetAsOfDateModifier(string modifier)

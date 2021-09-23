@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace BankFileParsers
 {
@@ -38,11 +39,19 @@ namespace BankFileParsers
 
                 if (line.StartsWith("16"))
                 {
-                    line = line.Replace("/", "");
+                    if (!line.EndsWith("/"))
+                    {
+                        line += "/";
+                    }
                 }
                 else if (line.StartsWith("88"))
                 {
                     line = line.Substring(2);//.Replace("/", " ");
+
+                    if (!line.EndsWith("/"))
+                    {
+                        line += "/";
+                    }
                 }
                 else throw new Exception("I got a bad line: " + line);
                 lineData += line;
@@ -82,6 +91,8 @@ namespace BankFileParsers
 
             CreateTextList();
             CreateTextDictionary();
+
+            Text = ConcatenateTextLines();
         }
 
         private string LeftoverStackToString(Stack stack)
@@ -98,21 +109,28 @@ namespace BankFileParsers
             var fields = Text.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var field in fields)
             {
-                if (TextList.Count > 0 && !field.Contains(":"))
-                {
-                    var text = TextList[TextList.Count - 1];
-                    if (text.EndsWith(":")) text += field;
-                    else text += " " + field;
-                    TextList[TextList.Count - 1] = text;
-                }
-                else
-                    TextList.Add(field);
+                TextList.Add(field);
             }
         }
 
         private void CreateTextDictionary()
         {
-            foreach (var item in TextList)
+            var dictionaryList = new List<string>();
+            var fields = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var field in fields)
+            {
+                if (dictionaryList.Count > 0 && !field.Contains(":"))
+                {
+                    var text = dictionaryList[dictionaryList.Count - 1];
+                    if (text.EndsWith(":")) text += field;
+                    else text += " " + field;
+                    dictionaryList[dictionaryList.Count - 1] = text;
+                }
+                else
+                    dictionaryList.Add(field);
+            }
+
+            foreach (var item in dictionaryList)
             {
                 var parts = item.Split(':');
                 if (parts.Length != 2) continue;
@@ -133,6 +151,26 @@ namespace BankFileParsers
                     }
                 }
             }
+        }
+
+        private string ConcatenateTextLines()
+        {
+            var fields = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var concatText = new StringBuilder();
+
+            foreach (var field in fields)
+            {
+                if (concatText.ToString().EndsWith(":"))
+                {
+                    concatText.Append(field);
+                }
+                else
+                {
+                    concatText.Append(" " + field);
+                }
+            }
+
+            return concatText.ToString();
         }
     }
 }

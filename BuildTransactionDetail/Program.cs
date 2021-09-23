@@ -619,7 +619,7 @@ namespace BuildTransactionDetail
             // I don't care to have asterisks in my description - you can keep them if you want
             description = description.Replace("*", "");
 
-            return TransactionDetailTemplate
+            return _transactionDetailTemplate
               .Replace("%CATEGORYTYPE%", categoryType)
               .Replace("%TRANSACTIONTYPE%", transactionType)
               .Replace("%LEVELTYPE%", levelType)
@@ -627,7 +627,7 @@ namespace BuildTransactionDetail
               .Replace("%DESCRIPTION%", "\"" + description + "\"");
         }
 
-        private const string TransactionDetailTemplate = @"new TransactionDetail()
+        private const string _transactionDetailTemplate = @"new TransactionDetail()
 {
   CategoryType = %CATEGORYTYPE%,
   Transaction = %TRANSACTIONTYPE%,
