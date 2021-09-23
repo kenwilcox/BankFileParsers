@@ -13,13 +13,15 @@ namespace BankFileParsers
         {
             if (!File.Exists(fileName)) throw new Exception("File not found, nothing to parse");
             _data = File.ReadAllLines(fileName);
-            return _Parse();
+            return InternalParse();
         }
 
         public void Write(string fileName, BaiFile data)
         {
-            var lines = new List<string>();
-            lines.Add(data.FileHeader);
+            var lines = new List<string>
+            {
+                data.FileHeader
+            };
             foreach (var group in data.Groups)
             {
                 lines.Add(group.GroupHeader);
@@ -44,7 +46,7 @@ namespace BankFileParsers
             File.WriteAllLines(fileName, lines.ToArray());
         }
 
-        private BaiFile _Parse()
+        private BaiFile InternalParse()
         {
             var bai = new BaiFile();
             var group = new BaiGroup("--default--");
