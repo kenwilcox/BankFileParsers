@@ -121,6 +121,7 @@ namespace BankFileParsers
             return ExportToCsv(list, dictionaryKeys, fields);
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public static void CsvFieldSeparator<T>(this List<T> list, char fieldSep)
         {
             _fieldSep = fieldSep;
@@ -146,5 +147,6 @@ namespace BankFileParsers
         {
             _disabledPrePost = true;
         }
+#pragma warning restore IDE0060 // Remove unused parameter
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,50 @@ namespace BankFileParsers.Example
 {
     public static class Program
     {
-        static void Main()
+        public static void Main()
+        {
+            Process(@"C:\temp\BAI", @"C:\temp\BAI-trans", @"C:\temp\bai-time.txt");
+        }
+
+        static void Process(string basePath, string transPath, string logName)
+        {
+            var parser = new BaiParser();
+            var total = new Stopwatch();
+            total.Start();
+
+            var sw = new Stopwatch();
+            foreach (var fileName in Directory.EnumerateFiles(basePath, "*", SearchOption.AllDirectories))
+            {
+                sw.Restart();
+                Console.Write(fileName + ": ");
+                try
+                {
+                    var bai = parser.Parse(fileName);
+                    var newFileName = fileName.Replace(basePath, transPath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(newFileName));
+                    parser.Write(newFileName, bai);
+                }
+                catch { }
+                sw.Stop();
+                var ts = sw.Elapsed;
+
+                // Format and display the TimeSpan value.
+                var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+                Console.WriteLine(elapsedTime);
+                File.AppendAllText(logName, fileName + ": " + elapsedTime + Environment.NewLine);
+                //break;
+            }
+            total.Stop();
+            var fin = total.Elapsed;
+            var totalTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                fin.Hours, fin.Minutes, fin.Seconds,
+                fin.Milliseconds / 10);
+            File.AppendAllText(logName, "Total: " + totalTime + Environment.NewLine);
+        }
+
+        public static void Main_old()
         {
             var parser = new BaiParser();
 
