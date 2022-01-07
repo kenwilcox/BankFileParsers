@@ -157,3 +157,14 @@ So the above code would create a csv file that would look like so:
 etc...
 
 This is all it was intended to do - add an issue or pull request and we can make some changes
+
+
+## CHANGE LOG
+### [0.1.8] - 2022-07-01
+#### Changed
+- Added license to nuget package to remove pack warning
+
+### [0.1.7] - 2022-07-01
+#### Changed
+- Added .net standard, core and .net 6 support
+  TargetFrameworks: net4.5;netstandard2.0;netstandard2.1;net5.0;net6.0
