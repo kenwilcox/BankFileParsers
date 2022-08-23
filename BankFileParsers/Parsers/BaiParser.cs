@@ -9,10 +9,29 @@ namespace BankFileParsers
     {
         private string[] _data;
 
+        /// <summary>
+        /// Parse BAI2 file
+        /// </summary>
+        /// <param name="fileName">Full path of BAI2 file to parse</param>
+        /// <returns>A <see cref="BaiFile"/> object</returns>
+        /// <exception cref="Exception"></exception>
         public BaiFile Parse(string fileName)
         {
-            if (!File.Exists(fileName)) throw new Exception("File not found, nothing to parse");
-            _data = File.ReadAllLines(fileName);
+            if (!File.Exists(path: fileName)) throw new Exception(message: "File not found, nothing to parse");
+            _data = File.ReadAllLines(path: fileName);
+            return InternalParse();
+        }
+
+        /// <summary>
+        /// Parse text from a BAI2 file
+        /// </summary>
+        /// <param name="fileText">Text contents of BAI2 file</param>
+        /// <returns>A <see cref="BaiFile"/> object</returns>
+        /// <exception cref="Exception"></exception>
+        public BaiFile ParseText(string fileText)
+        {
+            // Extract all lines from file text by splitting on all possible newline chars
+            _data = fileText.Split(separator: new []{"\r\n", "\r", "\n", Environment.NewLine}, options: StringSplitOptions.None);
             return InternalParse();
         }
 
