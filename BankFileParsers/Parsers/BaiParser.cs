@@ -31,7 +31,7 @@ namespace BankFileParsers
         public BaiFile ParseText(string fileText)
         {
             // Extract all lines from file text by splitting on all possible newline chars
-            _data = fileText.Split(separator: new []{"\r\n", "\r", "\n", Environment.NewLine}, options: StringSplitOptions.None);
+            _data = fileText.Split(separator: new []{"\r\n", "\r", "\n", Environment.NewLine}, options: StringSplitOptions.RemoveEmptyEntries);
             return InternalParse();
         }
 
