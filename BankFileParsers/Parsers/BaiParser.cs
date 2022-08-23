@@ -23,7 +23,7 @@ namespace BankFileParsers
         }
 
         /// <summary>
-        /// Parse text from a BAI2 file
+        /// Parse contents of a BAI2 file
         /// </summary>
         /// <param name="fileText">Text contents of BAI2 file</param>
         /// <returns>A <see cref="BaiFile"/> object</returns>
