@@ -160,6 +160,10 @@ This is all it was intended to do - add an issue or pull request and we can make
 
 
 ## CHANGE LOG
+### [0.1.9] - 2022-08-22
+#### Changed
+- Via PR #19 - added the ability to overwrite the Transaction Detail Line
+
 ### [0.1.8] - 2022-07-01
 #### Changed
 - Added license to nuget package to remove pack warning
