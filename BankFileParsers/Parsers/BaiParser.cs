@@ -35,6 +35,11 @@ namespace BankFileParsers
             return InternalParse();
         }
 
+        /// <summary>
+        /// Construct BAI2 file contents and write to given file.
+        /// </summary>
+        /// <param name="fileName">Full path of BAI2 file to write to</param>
+        /// <param name="data">BAI file data</param>
         public void Write(string fileName, BaiFile data)
         {
             var lines = new List<string>
@@ -63,6 +68,41 @@ namespace BankFileParsers
             lines.Add(data.FileTrailer);
 
             File.WriteAllLines(fileName, lines.ToArray());
+        }
+
+        /// <summary>
+        /// Construct and return BAI2 file contents as an array of file lines.
+        /// </summary>
+        /// <param name="data">BAI2 file data</param>
+        /// <returns>An array of strings, each corresponding to one line in BAI2 file</returns>
+        public string[] GetFileText(BaiFile data)
+        {
+            var lines = new List<string>
+            {
+                data.FileHeader
+            };
+            foreach (var group in data.Groups)
+            {
+                lines.Add(group.GroupHeader);
+                lines.AddRange(group.GroupContinuation);
+                foreach (var account in group.Accounts)
+                {
+                    lines.Add(account.AccountIdentifier);
+                    lines.AddRange(account.AccountContinuation);
+
+                    foreach (var detail in account.Details)
+                    {
+                        lines.Add(detail.TransactionDetail);
+                        lines.AddRange(detail.DetailContinuation);
+                    }
+
+                    lines.Add(account.AccountTrailer);
+                }
+                lines.Add(group.GroupTrailer);
+            }
+            lines.Add(data.FileTrailer);
+
+            return lines.ToArray();
         }
 
         private BaiFile InternalParse()
