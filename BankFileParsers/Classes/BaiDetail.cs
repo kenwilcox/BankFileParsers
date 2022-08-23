@@ -11,5 +11,14 @@ namespace BankFileParsers
             TransactionDetail = line;
             DetailContinuation = new List<string>();
         }
+
+        /// <summary>
+        /// Overwrite the TransactionDetail line with a new string
+        /// </summary>
+        /// <param name="line">New string to overwrite with</param>
+        public void SetTransactionDetail(string line)
+        {
+            TransactionDetail = line;
+        }
     }
 }
