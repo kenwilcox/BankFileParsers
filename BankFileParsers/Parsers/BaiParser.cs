@@ -10,7 +10,7 @@ namespace BankFileParsers
         private string[] _data;
 
         /// <summary>
-        /// Parse BAI2 file
+        /// Parse BAI2 file, given path of file.
         /// </summary>
         /// <param name="fileName">Full path of BAI2 file to parse</param>
         /// <returns>A <see cref="BaiFile"/> object</returns>
@@ -23,7 +23,7 @@ namespace BankFileParsers
         }
 
         /// <summary>
-        /// Parse contents of a BAI2 file
+        /// Parse contents of a BAI2 file.
         /// </summary>
         /// <param name="fileText">Text contents of BAI2 file</param>
         /// <returns>A <see cref="BaiFile"/> object</returns>
@@ -73,7 +73,7 @@ namespace BankFileParsers
         /// <summary>
         /// Construct and return BAI2 file contents as an array of file lines.
         /// </summary>
-        /// <param name="data">BAI2 file data</param>
+        /// <param name="data">BAI2 file data contained in a <see cref="BaiFile"/> object</param>
         /// <returns>An array of strings, each corresponding to one line in BAI2 file</returns>
         public string[] GetFileText(BaiFile data)
         {
