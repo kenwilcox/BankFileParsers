@@ -105,6 +105,11 @@ namespace BankFileParsers
             return lines.ToArray();
         }
 
+        /// <summary>
+        /// Main parser logic
+        /// </summary>
+        /// <returns>A <see cref="BaiFile"/> object, contained parsed file data</returns>
+        /// <exception cref="NotImplementedException"></exception>
         private BaiFile InternalParse()
         {
             var bai = new BaiFile();
