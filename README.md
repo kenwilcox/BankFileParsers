@@ -160,6 +160,12 @@ This is all it was intended to do - add an issue or pull request and we can make
 
 
 ## CHANGE LOG
+### [0.1.10] - 2022-09-21
+#### Changed
+- Via PR #23 - added two methods:
+    - ParseText() - takes BAI file contents as a string, instead of BAI file name
+    - GetFileText() - returns parsed BAI file contents as a string array, instead of writing to a file.
+
 ### [0.1.9] - 2022-08-22
 #### Changed
 - Via PR #19 - added the ability to overwrite the Transaction Detail Line
