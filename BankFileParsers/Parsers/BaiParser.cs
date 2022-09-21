@@ -9,13 +9,37 @@ namespace BankFileParsers
     {
         private string[] _data;
 
+        /// <summary>
+        /// Parse BAI2 file, given path of file.
+        /// </summary>
+        /// <param name="fileName">Full path of BAI2 file to parse</param>
+        /// <returns>A <see cref="BaiFile"/> object</returns>
+        /// <exception cref="Exception"></exception>
         public BaiFile Parse(string fileName)
         {
-            if (!File.Exists(fileName)) throw new Exception("File not found, nothing to parse");
-            _data = File.ReadAllLines(fileName);
+            if (!File.Exists(path: fileName)) throw new Exception(message: "File not found, nothing to parse");
+            _data = File.ReadAllLines(path: fileName);
             return InternalParse();
         }
 
+        /// <summary>
+        /// Parse contents of a BAI2 file.
+        /// </summary>
+        /// <param name="fileText">Text contents of BAI2 file</param>
+        /// <returns>A <see cref="BaiFile"/> object</returns>
+        /// <exception cref="Exception"></exception>
+        public BaiFile ParseText(string fileText)
+        {
+            // Extract all lines from file text by splitting on all possible newline chars
+            _data = fileText.Split(separator: new []{"\r\n", "\r", "\n", Environment.NewLine}, options: StringSplitOptions.RemoveEmptyEntries);
+            return InternalParse();
+        }
+
+        /// <summary>
+        /// Construct BAI2 file contents and write to given file.
+        /// </summary>
+        /// <param name="fileName">Full path of BAI2 file to write to</param>
+        /// <param name="data">BAI file data</param>
         public void Write(string fileName, BaiFile data)
         {
             var lines = new List<string>
@@ -46,6 +70,46 @@ namespace BankFileParsers
             File.WriteAllLines(fileName, lines.ToArray());
         }
 
+        /// <summary>
+        /// Construct and return BAI2 file contents as an array of file lines.
+        /// </summary>
+        /// <param name="data">BAI2 file data contained in a <see cref="BaiFile"/> object</param>
+        /// <returns>An array of strings, each corresponding to one line in BAI2 file</returns>
+        public string[] GetFileText(BaiFile data)
+        {
+            var lines = new List<string>
+            {
+                data.FileHeader
+            };
+            foreach (var group in data.Groups)
+            {
+                lines.Add(group.GroupHeader);
+                lines.AddRange(group.GroupContinuation);
+                foreach (var account in group.Accounts)
+                {
+                    lines.Add(account.AccountIdentifier);
+                    lines.AddRange(account.AccountContinuation);
+
+                    foreach (var detail in account.Details)
+                    {
+                        lines.Add(detail.TransactionDetail);
+                        lines.AddRange(detail.DetailContinuation);
+                    }
+
+                    lines.Add(account.AccountTrailer);
+                }
+                lines.Add(group.GroupTrailer);
+            }
+            lines.Add(data.FileTrailer);
+
+            return lines.ToArray();
+        }
+
+        /// <summary>
+        /// Main parser logic
+        /// </summary>
+        /// <returns>A <see cref="BaiFile"/> object, contained parsed file data</returns>
+        /// <exception cref="NotImplementedException"></exception>
         private BaiFile InternalParse()
         {
             var bai = new BaiFile();
