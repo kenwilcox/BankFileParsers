@@ -85,7 +85,7 @@ namespace BankFileParsers
         {
             if (string.IsNullOrEmpty(trimString)) return target;
 
-            string result = target;
+            var result = target;
             while (result.StartsWith(trimString))
             {
                 result = result.Substring(trimString.Length);

@@ -160,6 +160,15 @@ This is all it was intended to do - add an issue or pull request and we can make
 
 
 ## CHANGE LOG
+### [0.2.0] - 2023-05-31
+#### Changed - possible breaking change
+- Added net7.0 TFM (Target framework moniker)
+- I have a new bank, the format is quite a bit different. This version 'should not' break existing functionality, but I don't have your files, so I can't guarantee it. The change is how the BaiTranslator handles continuation records (88's). The old way (which is the default) just did a string += otherString. The new option does a TrimEnd('/') + Environment.NewLine. This made it WAY easier for me to handle that data. I also didn't want to pass values to several objects, so it's a static property (not really a fan, but easy).
+  - Setting `BaiTranslator.BaiTranslator88LineHandler = BaiTranslator88LineHandler.TrimSlashNewLine` before calling BaiTranslator.Translate will get you the new functionality.
+  - Leaving it alone, or setting it to `BaiTranslator.BaiTranslator88LineHandler = BaiTranslator88LineHandler.OldWay` works the old way. I tested this with several files and it still worked (woot).
+- The new Translator returns the full dictionary of items if it finds any, so you might not need to use keys. Keys still work however.
+- Sorry for the lack of imagination on my end.
+
 ### [0.1.10] - 2022-09-21
 #### Changed
 - Via PR #23 - added two methods:
