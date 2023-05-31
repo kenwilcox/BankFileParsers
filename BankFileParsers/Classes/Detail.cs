@@ -89,24 +89,54 @@ namespace BankFileParsers
             // What's left on the stack?
             Text = LeftoverStackToString(stack);
 
-            CreateTextList();
-            CreateTextDictionary();
+            if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.OldWay)
+            {
+                CreateTextList();
+                CreateTextDictionary();
 
-            Text = ConcatenateTextLines();
+                Text = ConcatenateTextLines();
+            }
+            else if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.TrimSlashNewLine)
+            {
+                CreateTextListNewLine();
+                CreateTextDictionaryNewLine();
+            }
         }
 
         private string LeftoverStackToString(Stack stack)
         {
             var ret = "";
-            while (stack.Count > 0)
-                ret += stack.Pop().ToString();
+            if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.OldWay)
+            {
+                while (stack.Count > 0)
+                {
+                    ret += stack.Pop().ToString();
+                }
+            }
+            else if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.TrimSlashNewLine)
+            {
+                while (stack.Count > 0)
+                {
+                    ret += stack.Pop().ToString().TrimEnd('/') + Environment.NewLine;
+                }
+            }
             return ret;
         }
 
         private void CreateTextList()
         {
             // Now fill up the List
-            var fields = Text.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var fields = Text.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var field in fields)
+            {
+                TextList.Add(field);
+            }
+        }
+
+        private void CreateTextListNewLine()
+        {
+            // Now fill up the List
+            var fields = Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var field in fields)
             {
                 TextList.Add(field);
@@ -148,6 +178,23 @@ namespace BankFileParsers
                     catch
                     {
                         // I'm doing this as a helper, makes no sense if it crashes
+                    }
+                }
+            }
+        }
+
+        private void CreateTextDictionaryNewLine()
+        {
+            var list = Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (var line in list)
+            {
+                var parts = line.Split(new[] { "  " }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var part in parts)
+                {
+                    var kvp = part.Split(':');
+                    if (kvp.Length > 1)
+                    {
+                        TextDictionary.Add(kvp[0].Trim(), kvp[1].Trim());
                     }
                 }
             }

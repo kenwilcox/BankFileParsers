@@ -30,6 +30,10 @@ namespace BankFileParsers.Example
                     var newFileName = fileName.Replace(basePath, transPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(newFileName));
                     parser.Write(newFileName, bai);
+
+                    BaiTranslator.BaiTranslator88LineHandler = BaiTranslator88LineHandler.TrimSlashNewLine;
+                    var trans = BaiTranslator.Translate(bai);
+                    var details = BaiTranslator.GetDetailInformation(trans);
                 }
                 catch { }
                 sw.Stop();

@@ -4,8 +4,23 @@ using System.Globalization;
 
 namespace BankFileParsers
 {
+    public enum BaiTranslator88LineHandler
+    {
+        /// <summary>
+        /// This is the old way continuation lines were handled
+        /// </summary>
+        OldWay,
+
+        /// <summary>
+        /// This way does a TrimEnd('/') and adds an Environment.NewLine
+        /// </summary>
+        TrimSlashNewLine,
+    }
+
     public class BaiTranslator
     {
+        public static BaiTranslator88LineHandler BaiTranslator88LineHandler = BaiTranslator88LineHandler.OldWay;
+
         public static TranslatedBaiFile Translate(BaiFile data)
         {
             return new TranslatedBaiFile(data);
@@ -158,7 +173,7 @@ namespace BankFileParsers
         /// <param name="data">The translated BAI object</param>
         /// <param name="dictionaryKeys">Any Keys in the Detail.TextDictionary (if any) you would like to export</param>
         /// <returns>A List of DetailSummary</returns>
-        public static List<DetailSummary> GetDetailInformation(TranslatedBaiFile data, List<string> dictionaryKeys)
+        public static List<DetailSummary> GetDetailInformation(TranslatedBaiFile data, List<string> dictionaryKeys = null)
         {
             var ret = new List<DetailSummary>();
             foreach (var group in data.Groups)
@@ -179,6 +194,10 @@ namespace BankFileParsers
                                     textDictionary.Add(key, detail.TextDictionary[key]);
                                 }
                             }
+                        }
+                        else if (BaiTranslator88LineHandler == BaiTranslator88LineHandler.TrimSlashNewLine)
+                        {
+                            textDictionary = detail.TextDictionary;
                         }
 
                         var ds = new DetailSummary()
