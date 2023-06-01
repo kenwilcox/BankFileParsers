@@ -160,6 +160,10 @@ This is all it was intended to do - add an issue or pull request and we can make
 
 
 ## CHANGE LOG
+### [0.2.1] - 2023-06-01
+#### Changed - possible breaking change
+- I finally got a file that showed me what was happening in issue #9, this should be fixed now.
+
 ### [0.2.0] - 2023-05-31
 #### Changed - possible breaking change
 - Added net7.0 TFM (Target framework moniker)
