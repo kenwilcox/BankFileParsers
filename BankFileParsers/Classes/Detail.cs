@@ -28,7 +28,10 @@ namespace BankFileParsers
             TextDictionary = new Dictionary<string, string>();
 
             var list = new List<string> { data.TransactionDetail };
-            list.AddRange(data.DetailContinuation);
+            if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.OldWay)
+            {
+                list.AddRange(data.DetailContinuation);
+            }
 
             var lineData = "";
             foreach (var section in list)
@@ -87,7 +90,7 @@ namespace BankFileParsers
             BankReferenceNumber = stack.Pop().ToString();
             CustomerReferenceNumber = stack.Pop().ToString();
             // What's left on the stack?
-            Text = LeftoverStackToString(stack);
+            Text = LeftoverStackToString(stack, data);
 
             if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.OldWay)
             {
@@ -103,7 +106,7 @@ namespace BankFileParsers
             }
         }
 
-        private string LeftoverStackToString(Stack stack)
+        private string LeftoverStackToString(Stack stack, BaiDetail data)
         {
             var ret = "";
             if (BaiTranslator.BaiTranslator88LineHandler == BaiTranslator88LineHandler.OldWay)
@@ -118,6 +121,10 @@ namespace BankFileParsers
                 while (stack.Count > 0)
                 {
                     ret += stack.Pop().ToString().TrimEnd('/') + Environment.NewLine;
+                }
+                foreach(var line in data.DetailContinuation)
+                {
+                    ret += line.Substring(3).TrimEnd('/') + Environment.NewLine;
                 }
             }
             return ret;
@@ -188,13 +195,25 @@ namespace BankFileParsers
             var list = Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             foreach (var line in list)
             {
-                var parts = line.Split(new[] { "  " }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var part in parts)
+                var colonCount = line.Split(':').Length - 1;
+                if (colonCount == 1)
                 {
-                    var kvp = part.Split(':');
-                    if (kvp.Length > 1)
+                    var kvp = line.Split(new[] { ':' }, StringSplitOptions.None);
+                    if (kvp.Length == 2)
                     {
                         TextDictionary.Add(kvp[0].Trim(), kvp[1].Trim());
+                    }
+                }
+                else if (colonCount == 2)
+                {
+                    var parts = line.Split(new[] { "    " }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var part in parts)
+                    {
+                        var kvp = part.Split(new[] { ':' }, StringSplitOptions.None);
+                        if (kvp.Length == 2)
+                        {
+                            TextDictionary.Add(kvp[0].Trim(), kvp[1].Trim());
+                        }
                     }
                 }
             }
