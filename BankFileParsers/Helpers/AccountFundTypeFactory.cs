@@ -24,12 +24,12 @@ namespace BankFileParsers
 
                 if (line.StartsWith("03"))
                 {
-                    // The first thre fields are record, account and currency
+                    // The first three fields are record, account and currency
                     var fields = line.Split(',');
                     RecordCode = fields[0];
                     CustomerAccountNumber = fields[1];
                     CurrencyCode = fields[2];
-                    var trailing = fields.Count() > 2? ",":"";
+                    var trailing = fields.Count() > 3? ",":"";
                     var replaced = string.Format("{0},{1},{2}{3}", fields[0], fields[1], fields[2], trailing);
                     line = line.Substring(replaced.Length);
                 }
