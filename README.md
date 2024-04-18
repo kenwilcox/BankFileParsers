@@ -160,6 +160,10 @@ This is all it was intended to do - add an issue or pull request and we can make
 
 
 ## CHANGE LOG
+### [0.2.2] - 2024-04-18
+#### Changed - possible breaking change
+- Merged PR #27 - no ill effects on my end.
+
 ### [0.2.1] - 2023-06-01
 #### Changed - possible breaking change
 - I finally got a file that showed me what was happening in issue #9, this should be fixed now.
